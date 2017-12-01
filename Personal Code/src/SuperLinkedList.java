@@ -4,12 +4,22 @@ import java.util.NoSuchElementException;
 
 public class SuperLinkedList<E> extends AbstractSequentialList<E> {
 
+    /**
+     * Node that makes up each position in the LinkedList
+     * @param <E>
+     */
     private static class Node<E>{
 
         private E data;
         private Node<E> previous;
         private Node<E> next;
 
+        /**
+         * Creates a node with given previous, next, and data
+         * @param data dat to store in node
+         * @param previous previous node in list
+         * @param next next node in list
+         */
         public Node(E data, Node<E> previous, Node<E> next){
             this.data = data;
             this.next = next;
@@ -17,6 +27,9 @@ public class SuperLinkedList<E> extends AbstractSequentialList<E> {
         }
     }
 
+    /**
+     * Custom ListIterator
+     */
     private class MyListIterator implements ListIterator<E> {
 
         private Node<E> nextItem;
@@ -24,11 +37,19 @@ public class SuperLinkedList<E> extends AbstractSequentialList<E> {
 
         private int index;
 
+        /**
+         * Creates a ListIterator at the begining of the LinkedList
+         */
         public MyListIterator(){
             nextItem = head;
             lastItem = null;
         }
 
+        /**
+         * Creates a ListIterator that starts at index in LinkedList
+         * @param index starting index
+         * @return ListIterator
+         */
         public ListIterator<E> ListIterator(int index){
             this.index = index;
             for (int x = 0; x < index; x++){
@@ -37,6 +58,10 @@ public class SuperLinkedList<E> extends AbstractSequentialList<E> {
             return this;
         }
 
+        /**
+         * Check if the next node is available
+         * @return True or False
+         */
         @Override
         public boolean hasNext() {
             if (nextItem != null){
@@ -45,6 +70,10 @@ public class SuperLinkedList<E> extends AbstractSequentialList<E> {
             return false;
         }
 
+        /**
+         * Returns next node
+         * @return next node
+         */
         @Override
         public E next() {
             if (!hasNext()){
@@ -56,6 +85,10 @@ public class SuperLinkedList<E> extends AbstractSequentialList<E> {
             return lastItem.data;
         }
 
+        /**
+         * Checks if the previous node is available
+         * @return True or False
+         */
         @Override
         public boolean hasPrevious() {
             if (lastItem != null){
@@ -64,6 +97,10 @@ public class SuperLinkedList<E> extends AbstractSequentialList<E> {
             return false;
         }
 
+        /**
+         * Returns previous node
+         * @return previous node
+         */
         @Override
         public E previous() {
             if (!hasPrevious()){
@@ -75,16 +112,27 @@ public class SuperLinkedList<E> extends AbstractSequentialList<E> {
             return nextItem.data;
         }
 
+        /**
+         * Returns next index in list
+         * @return next index
+         */
         @Override
         public int nextIndex() {
             return index;
         }
 
+        /**
+         * Returns previous index in list
+         * @return previous index
+         */
         @Override
         public int previousIndex() {
             return index - 1;
         }
 
+        /**
+         * Removes previous node
+         */
         @Override
         public void remove() {
             if (!hasPrevious()){
@@ -96,6 +144,10 @@ public class SuperLinkedList<E> extends AbstractSequentialList<E> {
             nextItem.previous = lastItem;
         }
 
+        /**
+         * Sets previous node data to e
+         * @param e new data for previous node
+         */
         @Override
         public void set(E e) {
             if (!hasPrevious()){
@@ -104,6 +156,10 @@ public class SuperLinkedList<E> extends AbstractSequentialList<E> {
             lastItem.data = e;
         }
 
+        /**
+         * Adds enw node in between previous and next nodes in list
+         * @param e dat for new node in list
+         */
         @Override
         public void add(E e) {
             lastItem = new Node(e,lastItem,nextItem);
@@ -114,6 +170,11 @@ public class SuperLinkedList<E> extends AbstractSequentialList<E> {
     private Node<E> head = null;
     private int size = 0;
 
+    /**
+     * Returns the node at given index
+     * @param index index of given node
+     * @return node at given index
+     */
     private Node<E> getNode(int index){
 
         Node<E> runningNode = head;
@@ -135,7 +196,11 @@ public class SuperLinkedList<E> extends AbstractSequentialList<E> {
 
     //Public Methods
 
-
+    /**
+     * Returns custom ListIterator MyListIterator with a given starting index
+     * @param index starting index in ListIterator
+     * @return ListIterator
+     */
     @Override
     public ListIterator listIterator(int index) {
         return new MyListIterator().ListIterator(index);
